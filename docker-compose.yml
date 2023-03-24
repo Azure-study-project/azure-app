@@ -1,0 +1,19 @@
+# Docker Composeのバージョンを指定
+version: '3'
+# サービスを定義
+services:
+  # サービス名をazure-appに設定
+  azure-app:
+    # コンテナが停止した場合に自動的に再起動するように設定
+    restart: always
+    # Dockerfileをビルドするためのディレクトリを指定
+    build: .
+    # コンテナ名をazure-app-containerに設定
+    container_name: 'azure-app-container'
+    # コンテナ内で作業するディレクトリを/root/に設定
+    working_dir: '/root/'
+    # TTY（端末）を有効
+    tty: true
+    # ホストとコンテナ間でデータを共有するためのボリュームマウントを設定
+    volumes:
+      - ./src:/root/src
