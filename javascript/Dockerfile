@@ -16,8 +16,6 @@ RUN npm audit fix
 RUN npm install dotenv --save
 # パッケージのインストールと、package.jsonファイルのdependenciesに追加
 RUN npm install @microsoft/microsoft-graph-client --save
-# パッケージの開発用インストールと、package.jsonファイルのdevDependenciesに追加
-RUN npm install @microsoft/microsoft-graph-types --save-dev
 # @azure/identityパッケージのインストール
 RUN npm install --save @azure/identity
 # コンテナが起動した際に実行されるコマンドを指定

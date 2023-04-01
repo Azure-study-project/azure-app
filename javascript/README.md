@@ -2,10 +2,6 @@
 
 Azure勉強会の開発用プロジェクト
 
-## 使用コンテナ
-- [node:alpine](https://hub.docker.com/_/node/)
-    - alpineは小さくスリムなイメージ(約5MG)
-
 ## 使用ライブラリ
 - [Microsoft Graph JavaScript Client Library](https://www.npmjs.com/package/@microsoft/microsoft-graph-client)
     - Microsoft Graph APIを呼び出してMicrosoft 365サービスにアクセスできるクライアントライブラリ
@@ -20,16 +16,33 @@ Azure勉強会の開発用プロジェクト
     - .envで定義された環境変数を簡単に扱える
 
 ## 使用ファイル
+- .env
+    - アプリケーションの環境変数を設定するためのファイル
+- Dockerfile
+    - Dockerイメージをビルドするための設定ファイル
+    - [node:alpine](https://hub.docker.com/_/node/)を使用。alpineは小さくスリムなイメージ(約5MG)
+- docker-compose.yml
+    - 複数のDockerコンテナを管理するための設定ファイル
 - package.json
     - プログラムの諸情報と今回使うライブラリ情報を記述したファイル
-- src/index.js
-    - メインプログラム
+    - dependencies: アプリケーションで使用するモジュールを定義するためのオブジェクト
+    - scripts: アプリケーションのスクリプトを定義するためのオブジェクトであり、nodeコマンドを使用してsrc/server.jsファイルを実行
+- src/client.js
+    - MS Graph APIを使用してMicrosoft 365のデータにアクセスするためのクライアントを作成するファイル
+- src/route.js
+    - Webアプリケーションのルーティングを定義するファイル
+- src/server.js
+    - アプリケーションの起動と待機
 
 # 1. クイックスタート
 
 .envファイルの設定
 ```
 PORT=<ホストとコンテナの使用ポート>
+TENANT_ID=<テナントID>
+CLIENT_ID=<クライアントID>
+CLIENT_SECRET=<クライアントシークレットの値>
+USER_ID=<自身のユーザーID>
 ```
 
 DockerfileによるイメージのビルドとDockerコンテナの起動
@@ -78,6 +91,11 @@ exit
 
 ```
 docker-compose down
+```
+
+コンテナのログの確認
+```
+docker logs <CONTAINER ID>
 ```
 
 # 1. Microsoft Graph JavaScript SDK をインストールする
