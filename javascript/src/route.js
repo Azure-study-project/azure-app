@@ -25,8 +25,8 @@ module.exports = function(app, client){
     app.get('/user', async (req, res) => {
         try {
             const userId = process.env.USER_ID;
-            const yu = await client.api(`/users/${userId}`).get();
-            res.send(yu);
+            const user = await client.api(`/users/${userId}`).get();
+            res.send(user);
         } catch (error) {
             console.error(error);
             res.status(500).send('Internal Server Error');

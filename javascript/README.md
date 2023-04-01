@@ -7,9 +7,6 @@ Azure勉強会の開発用プロジェクト
     - Microsoft Graph APIを呼び出してMicrosoft 365サービスにアクセスできるクライアントライブラリ
     - HTTPリクエストを作成し、送信し、レスポンスを受信し、解析するための機能を提供
     - Requirement: Node.js 12 LTS or higher
-- [Microsoft Graph TypeScript Types](https://www.npmjs.com/package/@microsoft/microsoft-graph-types)
-    - Microsoft GraphエンティティのTypeScript型
-    - (使用する必要のないライブラリかもしれない)
 - [Azure Identity client library for JavaScript](https://www.npmjs.com/package/@azure/identity?activeTab=readme)
     - javascript用Azure ADクライアントアプリ
 - [dotenv](https://www.npmjs.com/package/dotenv)
@@ -55,24 +52,22 @@ docker-compose up -d --build
 docker container ls
 ```
 
-```
-curl http://localhost:8080
-```
-
-ブラウザにて
+ブラウザでサーバが起動していることを確認
 ```
 http:localhost:8080
 ```
-
-```
-curl http://localhost:8080/about
-```
-
-ブラウザにて
 ```
 http:localhost:8080/about
 ```
 
+コンテナの停止
+```
+docker-compose down
+```
+
+# 2. 参考
+
+コンテナに接続
 ```
 docker-compose exec azure-app sh
 ```
@@ -89,15 +84,7 @@ docker-compose exec azure-app sh
 exit
 ```
 
-```
-docker-compose down
-```
-
 コンテナのログの確認
 ```
 docker logs <CONTAINER ID>
 ```
-
-# 1. Microsoft Graph JavaScript SDK をインストールする
-
-https://learn.microsoft.com/ja-jp/graph/sdks/sdk-installation#install-the-microsoft-graph-javascript-sdk
