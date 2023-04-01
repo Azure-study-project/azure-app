@@ -32,6 +32,14 @@ Azure勉強会の開発用プロジェクト
     - アプリケーションの起動と待機
 
 # 1. クイックスタート
+アプリのクローン
+```
+git clone https://github.com/Azure-study-project/azure-app.git
+```
+ディレクトリの移動
+```
+cd javascript
+```
 
 .envファイルの設定
 ```
