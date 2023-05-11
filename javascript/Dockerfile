@@ -14,6 +14,10 @@ RUN npm install
 RUN npm audit fix
 # dotenvのパッケージのインストール
 RUN npm install dotenv --save
+# axiosのパッケージのインストール
+RUN npm install axios --save
+# cookie-parserのパッケージのインストール
+RUN npm install cookie-parser --save
 # パッケージのインストールと、package.jsonファイルのdependenciesに追加
 RUN npm install @microsoft/microsoft-graph-client --save
 # @azure/identityパッケージのインストール
