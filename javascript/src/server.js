@@ -8,13 +8,16 @@ const express = require('express');
 // expressアプリケーションの作成
 const app = express();
 
-// MS Graph APIを使用するためのクライアントを作成
-const getClient = require('./client.js');
-const client = getClient();
+// Cookie読み取りのための準備
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+// axiosというHTTPリクエストを簡単に行えるモジュールを読み込み
+const axios = require('axios');
 
 // アプリケーションのルーティングを定義するためのroute.jsファイルを読み込み
 const route = require('./route.js');
-route(app, client);
+route(app, axios);
 
 // 環境変数からポート番号を取得
 const port = process.env.PORT
