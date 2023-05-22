@@ -8,6 +8,12 @@ const express = require('express');
 // expressアプリケーションの作成
 const app = express();
 
+// ファイルシステムにアクセスするためのAPIを提供するfsモジュールの読み込み
+const fs = require('fs');
+
+// HTTPSリクエストを送信するためのAPIを提供するhttpsモジュールの読み込み
+const https = require('https');
+
 // Cookie読み取りのための準備
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
@@ -20,9 +26,15 @@ const route = require('./route.js');
 route(app, axios);
 
 // 環境変数からポート番号を取得
-const port = process.env.PORT
+const port = process.env.PORT;
+
+// HTTPSサーバーを作成
+const server = https.createServer({
+    key: fs.readFileSync('./privatekey.pem'),
+    cert: fs.readFileSync('./cert.pem'),
+}, app);
 
 // アプリケーションを起動して、指定されたポートでリクエストを待ち受けるように設定
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
