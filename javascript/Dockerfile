@@ -16,6 +16,10 @@ RUN npm audit fix
 RUN npm install dotenv --save
 # axiosのパッケージのインストール
 RUN npm install axios --save
+# fsのパッケージのインストール
+RUN npm install fs --save
+# httpsのパッケージのインストール
+RUN npm install https --save
 # cookie-parserのパッケージのインストール
 RUN npm install cookie-parser --save
 # パッケージのインストールと、package.jsonファイルのdependenciesに追加
