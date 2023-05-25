@@ -28,13 +28,25 @@ route(app, axios);
 // 環境変数からポート番号を取得
 const port = process.env.PORT;
 
-// HTTPSサーバーを作成
-const server = https.createServer({
-    key: fs.readFileSync('./privatekey.pem'),
-    cert: fs.readFileSync('./cert.pem'),
-}, app);
+if (port == 80) {
+    // HTTPサーバー
+    // アプリケーションを起動して、指定されたポートでリクエストを待ち受けるように設定
+    app.listen(port, () => {
+        console.log(`Server running on port ${port}`);
+    });
+}
+else if (port == 443){
+    // HTTPSサーバーを作成
+    const server = https.createServer({
+        key: fs.readFileSync('./privatekey.pem'),
+        cert: fs.readFileSync('./cert.pem'),
+    }, app);
 
-// アプリケーションを起動して、指定されたポートでリクエストを待ち受けるように設定
-server.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
+    // アプリケーションを起動して、指定されたポートでリクエストを待ち受けるように設定
+    server.listen(port, () => {
+        console.log(`Server running on port ${port}`);
+    });
+}
+else {
+    console.log('incorrect port number');
+}
