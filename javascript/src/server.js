@@ -48,5 +48,6 @@ else if (port == 443){
     });
 }
 else {
+    console.log(`Trying to run on port ${port}`);
     console.log('incorrect port number');
 }
