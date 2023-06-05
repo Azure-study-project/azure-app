@@ -6,7 +6,7 @@ module.exports = function(app, axios){
 
     // ルートパスにアクセスした場合に返されるレスポンスを定義
     app.get('/', (req, res) => {
-        res.send(config.welcome);
+        res.send(config.message.welcome);
     });
 
     // meパスにアクセスした場合に、MS Graph APIを使用して現在のユーザーの情報を取得し、レスポンスとして返す
@@ -31,7 +31,7 @@ module.exports = function(app, axios){
             // try文中でエラーが発生した場合は、catch文が実行
             // errorという変数には、発生したエラーが格納
             console.error(error);
-            res.status(500).send(config.error);
+            res.status(500).send(config.message.error);
         }
     });
 
@@ -48,7 +48,7 @@ module.exports = function(app, axios){
             }
         } catch (error) {
             console.error(error);
-            res.status(500).send(config.error);
+            res.status(500).send(config.message.error);
         }
     });
 
@@ -66,7 +66,7 @@ module.exports = function(app, axios){
             }
         } catch (error) {
             console.error(error);
-            res.status(500).send(config.error);
+            res.status(500).send(config.message.error);
         }
     });
 
@@ -83,7 +83,7 @@ module.exports = function(app, axios){
             }
         } catch (error) {
             console.error(error);
-            res.status(500).send(config.error);
+            res.status(500).send(config.message.error);
         }
     });
 
@@ -105,7 +105,7 @@ module.exports = function(app, axios){
             }
         } catch (error) {
             console.error(error);
-            res.status(500).send(config.error);
+            res.status(500).send(config.message.error);
         }
     });
 
@@ -122,7 +122,7 @@ module.exports = function(app, axios){
             }
         } catch (error) {
             console.error(error);
-            res.status(500).send(config.error);
+            res.status(500).send(config.message.error);
         }
     });
 
@@ -135,7 +135,7 @@ module.exports = function(app, axios){
             res.redirect(signinUrl);
         } catch (error) {
             console.error(error);
-            res.status(500).send(config.error);
+            res.status(500).send(config.message.error);
         }
     });
 
@@ -148,7 +148,7 @@ module.exports = function(app, axios){
             res.redirect(config.endpoint.home);
         } catch (error) {
             console.error(error);
-            res.status(500).send(config.error);
+            res.status(500).send(config.message.error);
         }
     });
 }
