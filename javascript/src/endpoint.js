@@ -2,7 +2,7 @@
 const env = process.env.ENV;
 const localHomeUrl = process.env.LOCAL_HOME_URL;
 const devHomeUrl = process.env.DEV_HOME_URL;
-const homeUrl = env == 'local' ? localHomeUrl : env == 'prod' ? devHomeUrl : '';
+const homeUrl = env == 'local' ? localHomeUrl : env == 'dev' ? devHomeUrl : '';
 const userId = process.env.USER_ID;
 const teamId = process.env.TEAM_ID;
 const channelId = process.env.CHANNEL_ID;
