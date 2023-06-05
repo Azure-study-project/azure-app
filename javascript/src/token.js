@@ -4,6 +4,11 @@
 // 非同期関数を定義
 // 引数として認可コードを受け取り、アクセストークンを返す
 async function getAccessToken(code, axios) {
+    // 環境変数を取得
+    const env = process.env.ENV;
+    const localRedirectUrl = process.env.LOCAL_REDIRECT_URL;
+    const devRedirectUrl = process.env.DEV_REDIRECT_URL;
+    const redirectUrl = env == 'local' ? localRedirectUrl : env == 'dev' ? devRedirectUrl : '';
   // optionsというオブジェクトを作成
   // このオブジェクトに、HTTPリクエストの設定を格納
   const options = {
@@ -25,7 +30,7 @@ async function getAccessToken(code, axios) {
       // 認可コード
       code: code,
       // アクセストークンを受け取るためのリダイレクト先のURL
-      redirect_uri: process.env.REDIRECT_URL,
+      redirect_uri: redirectUrl,
       // トークンの種類
       // 認可コードフローでトークンを取得することを意味
       grant_type: 'authorization_code',
