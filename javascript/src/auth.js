@@ -3,12 +3,7 @@
 
 // getAuthUrlという関数を定義
 // この関数は、Microsoft IDプラットフォームの認証エンドポイントにリクエストするためのURLを作成して返す
-function getAuthUrl() {
-    // 環境変数を取得
-    const env = process.env.ENV;
-    const localRedirectUrl = process.env.LOCAL_REDIRECT_URL;
-    const devRedirectUrl = process.env.DEV_REDIRECT_URL;
-    const redirectUrl = env == 'local' ? localRedirectUrl : env == 'dev' ? devRedirectUrl : '';
+function getAuthUrl(redirect) {
     // OAth 2.0認可コードフローを使って、Microsoft IDプラットフォームに対して認証と認可を実施
     const url = "https://login.microsoftonline.com/" + process.env.TENANT_ID + "/oauth2/v2.0/authorize?" + 
     // クライアントアプリケーションのID
@@ -17,7 +12,7 @@ function getAuthUrl() {
     // 認可コードを取得することを意味
     "&response_type=code" + 
     // 認可コードを受け取るためのリダイレクト先のURL
-    "&redirect_uri=" + redirectUrl.split(':').join('%3A').split('/').join('%2F') + 
+    "&redirect_uri=" + redirect.split(':').join('%3A').split('/').join('%2F') + 
     // レスポンスのモード
     // 認可コードをリダイレクト先のURLのクエリパラメータとして渡すことを意味
     "&response_mode=query" +
@@ -29,6 +24,6 @@ function getAuthUrl() {
     return url;
 }
 // 他のファイルからこの関数を呼び出せるように、関数をモジュールとしてエクスポート
-module.exports = function(){
-    return getAuthUrl();
+module.exports = function(redirect){
+    return getAuthUrl(redirect);
 }

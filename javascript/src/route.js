@@ -1,7 +1,6 @@
 // Webアプリケーションのルーティングを定義
 module.exports = function(app, axios){
     // 他のファイルに定義されたモジュールを読み込んで、定数に代入
-    const endpoint = require('./endpoint.js');
     const config = require('./config.js');
     const callMSGraph = require('./msgraph.js');
 
@@ -19,13 +18,13 @@ module.exports = function(app, axios){
             if (accessToken == undefined) {
                 // アクセストークンがundefinedの場合
                 // resオブジェクトのredirectメソッドを呼び出し、サインインページにリダイレクト
-                res.redirect(endpoint.signin);
+                res.redirect(config.endpoint.signin);
             }
             else {
                 // アクセストークンがundefinedでない場合
                 // この関数は、Microsoft Graph APIにリクエストを送ってレスポンスを返すもの
                 // awaitキーワードを使って、この関数の処理が完了するまで待機
-                const response = await callMSGraph(endpoint.me, accessToken, axios);
+                const response = await callMSGraph(config.endpoint.me, accessToken, axios);
                 res.send(response);
             }
         } catch (error) {
@@ -41,10 +40,10 @@ module.exports = function(app, axios){
         try {
             const accessToken = req.cookies.access_token;
             if (accessToken == undefined) {
-                res.redirect(endpoint.signin);
+                res.redirect(config.endpoint.signin);
             }
             else {
-                const response = await callMSGraph(endpoint.users, accessToken, axios);
+                const response = await callMSGraph(config.endpoint.users, accessToken, axios);
                 res.send(response);
             }
         } catch (error) {
@@ -59,10 +58,10 @@ module.exports = function(app, axios){
         try {
             const accessToken = req.cookies.access_token;
             if (accessToken == undefined) {
-                res.redirect(endpoint.signin);
+                res.redirect(config.endpoint.signin);
             }
             else {
-                const response = await callMSGraph(endpoint.teams, accessToken, axios);
+                const response = await callMSGraph(config.endpoint.teams, accessToken, axios);
                 res.send(response);
             }
         } catch (error) {
@@ -76,10 +75,10 @@ module.exports = function(app, axios){
         try {
             const accessToken = req.cookies.access_token;
             if (accessToken == undefined) {
-                res.redirect(endpoint.signin);
+                res.redirect(config.endpoint.signin);
             }
             else {
-                const response = await callMSGraph(endpoint.channels, accessToken, axios);
+                const response = await callMSGraph(config.endpoint.channels, accessToken, axios);
                 res.send(response);
             }
         } catch (error) {
@@ -93,10 +92,10 @@ module.exports = function(app, axios){
         try {
             const accessToken = req.cookies.access_token;
             if (accessToken == undefined) {
-                res.redirect(endpoint.signin);
+                res.redirect(config.endpoint.signin);
             }
             else {
-                const response = await callMSGraph(endpoint.messages, accessToken, axios);
+                const response = await callMSGraph(config.endpoint.messages, accessToken, axios);
                 const value = response.value;
                 let messages = [];
                 value.forEach(function(val){
@@ -115,10 +114,10 @@ module.exports = function(app, axios){
         try {
             const accessToken = req.cookies.access_token;
             if (accessToken == undefined) {
-                res.redirect(endpoint.signin);
+                res.redirect(config.endpoint.signin);
             }
             else {
-                const response = await callMSGraph(endpoint.chats, accessToken, axios);
+                const response = await callMSGraph(config.endpoint.chats, accessToken, axios);
                 res.send(response);
             }
         } catch (error) {
@@ -132,7 +131,7 @@ module.exports = function(app, axios){
     app.get('/signin', async (req, res) => {
         try {
             var getAuthUrl = require('./auth.js');
-            const signinUrl = getAuthUrl();
+            const signinUrl = getAuthUrl(config.endpoint.redirect);
             res.redirect(signinUrl);
         } catch (error) {
             console.error(error);
@@ -144,9 +143,9 @@ module.exports = function(app, axios){
     app.get('/accesstoken', async (req, res) => {
         try {
             var getAccessToken = require('./token.js');
-            const accessToken = await getAccessToken(req.query.code, axios);
+            const accessToken = await getAccessToken(req.query.code, config.endpoint.redirect, axios);
             res.cookie("access_token", accessToken);
-            res.redirect(endpoint.home);
+            res.redirect(config.endpoint.home);
         } catch (error) {
             console.error(error);
             res.status(500).send(config.error);
