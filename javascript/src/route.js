@@ -146,7 +146,7 @@ module.exports = function(app, axios){
             var getAccessToken = require('./token.js');
             const accessToken = await getAccessToken(req.query.code, axios);
             res.cookie("access_token", accessToken);
-            res.redirect(endpoint.localhost);
+            res.redirect(endpoint.home);
         } catch (error) {
             console.error(error);
             res.status(500).send(config.error);
