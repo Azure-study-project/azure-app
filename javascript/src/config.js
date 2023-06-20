@@ -1,6 +1,7 @@
 // 環境変数を取得
 const env = process.env.ENV;
 const port = process.env.PORT;
+const access = process.env.ACCESS;
 const tenantId = process.env.TENANT_ID;
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
@@ -22,10 +23,12 @@ module.exports = {
     'message': {
         'welcome': 'Welcome to Azure App',
         'error': 'Internal Server Error',
+        'meError': '/me cannot be used with app access'
     },
     'environment': {
-        'port': `${port}`,
         'env': `${env}`,
+        'port': `${port}`,
+        'access': `${access}`,
     },
     'id' : {
         'tenantId': `${tenantId}`,
@@ -44,7 +47,7 @@ module.exports = {
         'signin': `${homeUrl}/signin`,
         'msgraphClient': '@microsoft/microsoft-graph-client',
         'auth': `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize`,
-        'delegetedAccessToken': `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`,
+        'delegatedAccessToken': `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`,
         'appAccessToken': 'https://graph.microsoft.com/.default',
         'me': 'https://graph.microsoft.com/v1.0/me',
         'users': `https://graph.microsoft.com/v1.0/users/${userId}`,

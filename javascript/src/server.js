@@ -23,11 +23,12 @@ const axios = require('axios');
 
 // 他のファイルに定義されたモジュールを読み込み
 const config = require('./config.js');
+const getAccessToken = require('./token.js');
 const callMSGraph = require('./msgraph.js');
 
 // アプリケーションのルーティングを定義するためのroute.jsファイルを読み込み
 const route = require('./route.js');
-route(app, config, callMSGraph, axios);
+route(app, config, getAccessToken, callMSGraph, axios);
 
 // 環境変数からポート番号を取得
 const port = config.environment.port;
@@ -52,6 +53,6 @@ else if (port == 443){
     });
 }
 else {
-    console.log(`Trying to run on port ${port}`);
-    console.log('incorrect port number');
+    console.error(`Trying to run on port ${port}`);
+    console.error('incorrect port number');
 }
