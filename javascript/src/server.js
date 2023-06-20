@@ -21,12 +21,16 @@ app.use(cookieParser());
 // axiosというHTTPリクエストを簡単に行えるモジュールを読み込み
 const axios = require('axios');
 
+// 他のファイルに定義されたモジュールを読み込み
+const config = require('./config.js');
+const callMSGraph = require('./msgraph.js');
+
 // アプリケーションのルーティングを定義するためのroute.jsファイルを読み込み
 const route = require('./route.js');
-route(app, axios);
+route(app, config, callMSGraph, axios);
 
 // 環境変数からポート番号を取得
-const port = process.env.PORT;
+const port = config.environment.port;
 
 if (port == 80) {
     // HTTPサーバー

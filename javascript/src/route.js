@@ -1,9 +1,5 @@
 // Webアプリケーションのルーティングを定義
-module.exports = function(app, axios){
-    // 他のファイルに定義されたモジュールを読み込んで、定数に代入
-    const config = require('./config.js');
-    const callMSGraph = require('./msgraph.js');
-
+module.exports = function(app, config, callMSGraph, axios){
     // ルートパスにアクセスした場合に返されるレスポンスを定義
     app.get('/', (req, res) => {
         res.send(config.message.welcome);
@@ -130,9 +126,11 @@ module.exports = function(app, axios){
     // '/signin'というパスにGETリクエストが来たときに、ユーザーをサインインページにリダイレクトする処理を定義
     app.get('/signin', async (req, res) => {
         try {
+            // 委任されたアクセス
             var getAuthUrl = require('./auth.js');
-            const signinUrl = getAuthUrl(config.endpoint.redirect);
+            const signinUrl = getAuthUrl(config);
             res.redirect(signinUrl);
+            // アプリ専用アクセス
         } catch (error) {
             console.error(error);
             res.status(500).send(config.message.error);
@@ -143,7 +141,7 @@ module.exports = function(app, axios){
     app.get('/accesstoken', async (req, res) => {
         try {
             var getAccessToken = require('./token.js');
-            const accessToken = await getAccessToken(req.query.code, config.endpoint.redirect, axios);
+            const accessToken = await getAccessToken(req.query.code, config, axios);
             res.cookie("access_token", accessToken);
             res.redirect(config.endpoint.home);
         } catch (error) {

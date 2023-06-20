@@ -3,14 +3,14 @@
 
 // 非同期関数を定義
 // 引数として認可コードを受け取り、アクセストークンを返す
-async function getAccessToken(code, redirect, axios) {
+async function getAccessToken(code, config, axios) {
   // optionsというオブジェクトを作成
   // このオブジェクトに、HTTPリクエストの設定を格納
   const options = {
     // リクエストのメソッドでPOSTと指定し、データを送信することを意味する
     method: 'POST',
     // リクエストのURLで、Microsoft IDプラットフォームのトークンエンドポイントのURLを指定
-    url: "https://login.microsoftonline.com/" + process.env.TENANT_ID + "/oauth2/v2.0/token",
+    url: config.endpoint.delegetedAccessToken,
     // リクエストのヘッダー
     headers: {
       // データがURLエンコードされた形式で送信されることを意味
@@ -19,18 +19,18 @@ async function getAccessToken(code, redirect, axios) {
     // リクエストのボディ
     data: {
       // クライアントアプリケーションのID
-      client_id: process.env.CLIENT_ID,
+      client_id: config.id.clientId,
       // アクセストークンでアクセスしたいリソースの範囲
-      scope: process.env.SCOPES.split(',').join(' '),
+      scope: config.id.scopes,
       // 認可コード
       code: code,
       // アクセストークンを受け取るためのリダイレクト先のURL
-      redirect_uri: redirect,
+      redirect_uri: config.endpoint.redirect,
       // トークンの種類
       // 認可コードフローでトークンを取得することを意味
       grant_type: 'authorization_code',
       // クライアントアプリケーションの秘密鍵
-      client_secret: process.env.CLIENT_SECRET,
+      client_secret: config.id.clientSecret
     }
   };
   // optionsというオブジェクトに指定されたHTTPリクエストを非同期で送信
@@ -48,9 +48,9 @@ async function getAccessToken(code, redirect, axios) {
   });
 }
 // codeとaxiosの引数を受け取って、アクセストークンを返す非同期関数をモジュールとしてエクスポート
-module.exports = async function(code, redirect, axios){
+module.exports = async function(code, config, axios){
   // getAccessTokenという関数にcodeとaxiosを渡して、アクセストークンを非同期で取得
   // awaitキーワードを使って、Promiseが解決されるまで待機
-  const accessToken = await getAccessToken(code, redirect, axios);
+  const accessToken = await getAccessToken(code, config, axios);
   return accessToken;
 }
