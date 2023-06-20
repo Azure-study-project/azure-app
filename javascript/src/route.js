@@ -1,3 +1,6 @@
+const { CosmosClient } = require("@azure/cosmos");
+const { v4: uuidv4 } = require('uuid');
+
 // Webアプリケーションのルーティングを定義
 module.exports = function(app, config, getAccessToken, callMSGraph, axios){
     // ルートパスにアクセスした場合に返されるレスポンスを定義
@@ -167,6 +170,40 @@ module.exports = function(app, config, getAccessToken, callMSGraph, axios){
             const accessToken = await getAccessToken(req.query.code, config, axios);
             res.cookie("access_token", accessToken);
             res.redirect(config.endpoint.home);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send(config.message.error);
+        }
+    });
+
+    // cosmosDBの接続テスト
+    app.get('/cosmos', async (req, res) => {
+        try {
+            const endpoint = "https://azure-study-cosmosdb.documents.azure.com:443/";
+            const key = "29V8BKfk46gLzzepo9EToMMHRH7YnCFnoGiKxxPYSz85CQpqfxsKlLcruFOI4Tl7nnfn64f05cexACDb7MVP6w==";
+            const client = new CosmosClient({ endpoint, key });
+
+            const databaseId = "TeamsDB";
+            const containerId = "TeamsContainer";
+
+            async function main() {
+                const { database } = await client.databases.createIfNotExists({ id: databaseId });
+                const { container } = await database.containers.createIfNotExists({ id: containerId });
+
+                const itemDefinition = {
+                    id: uuidv4(),
+                    user: "yu saito",
+                    message: "aaa"
+                };
+
+                const { resource: createdItem } = await container.items.create(itemDefinition);
+                console.log(`Created item with id:\n${createdItem.id}\n`);
+            }
+
+            main().catch((error) => {
+                console.error("Error running sample:", error.message);
+            });
+            res.send("cosmosDBに接続しました。");
         } catch (error) {
             console.error(error);
             res.status(500).send(config.message.error);

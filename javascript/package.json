@@ -1,6 +1,15 @@
 {
   "dependencies": {
-    "express": "*"
+    "@azure/cosmos": "^3.17.3",
+    "@azure/identity": "^3.2.2",
+    "@microsoft/microsoft-graph-client": "^3.0.5",
+    "axios": "^1.4.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "express": "*",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0",
+    "uuid": "^9.0.0"
   },
   "scripts": {
     "start": "node src/server.js"
