@@ -12,19 +12,5 @@ COPY ./ ./
 RUN npm install
 # 報告された脆弱性に関してノードパッケージを更新
 RUN npm audit fix
-# dotenvのパッケージのインストール
-RUN npm install dotenv --save
-# axiosのパッケージのインストール
-RUN npm install axios --save
-# fsのパッケージのインストール
-RUN npm install fs --save
-# httpsのパッケージのインストール
-RUN npm install https --save
-# cookie-parserのパッケージのインストール
-RUN npm install cookie-parser --save
-# パッケージのインストールと、package.jsonファイルのdependenciesに追加
-RUN npm install @microsoft/microsoft-graph-client --save
-# @azure/identityパッケージのインストール
-RUN npm install --save @azure/identity
 # コンテナが起動した際に実行されるコマンドを指定
 CMD ["npm", "start"]
