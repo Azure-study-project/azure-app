@@ -172,7 +172,7 @@ module.exports = function(app, config, getAccessToken, callMSGraph, axios){
                 console.log("message:", messages);
 
                 messages.forEach(async function(message){
-                    const { resource: createdItem } = await container.items.replace(message);
+                    const { resource: createdItem } = await container.items.create(message);
                     console.log(`Created item with id:\n${createdItem.id}\n`);
                 });
             }
